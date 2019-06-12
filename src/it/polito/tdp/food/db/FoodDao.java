@@ -83,7 +83,7 @@ public class FoodDao {
 
 	}
 
-	public List<Condiment> getCondiment(int calorie) {
+	public List<Condiment> getCondiment(double calorie) {
 		
 		String sql = "SELECT condiment_id, food_code, display_name, condiment_portion_size, condiment_calories " + 
 				"FROM condiment " + 
@@ -94,7 +94,7 @@ public class FoodDao {
 				try {
 					Connection conn = DBConnect.getConnection() ;
 					PreparedStatement st = conn.prepareStatement(sql) ;		
-					st.setInt(1, calorie);
+					st.setDouble(1, calorie);
 					ResultSet res = st.executeQuery() ;
 					
 					while(res.next()) {

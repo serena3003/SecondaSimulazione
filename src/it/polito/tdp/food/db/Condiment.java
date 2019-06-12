@@ -66,6 +66,7 @@ public class Condiment implements Comparable<Condiment> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((condiment_id == null) ? 0 : condiment_id.hashCode());
+		result = prime * result + ((food_code == null) ? 0 : food_code.hashCode());
 		return result;
 	}
 
@@ -82,6 +83,11 @@ public class Condiment implements Comparable<Condiment> {
 			if (other.condiment_id != null)
 				return false;
 		} else if (!condiment_id.equals(other.condiment_id))
+			return false;
+		if (food_code == null) {
+			if (other.food_code != null)
+				return false;
+		} else if (!food_code.equals(other.food_code))
 			return false;
 		return true;
 	}

@@ -36,7 +36,7 @@ public class FoodController {
     private Button btnCreaGrafo; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxIngrediente"
-    private ComboBox<?> boxIngrediente; // Value injected by FXMLLoader
+    private ComboBox<Condiment> boxIngrediente; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnDietaEquilibrata"
     private Button btnDietaEquilibrata; // Value injected by FXMLLoader
@@ -46,22 +46,26 @@ public class FoodController {
 
     @FXML
     void doCalcolaDieta(ActionEvent event) {
+    	
+    	Condiment condiment = boxIngrediente.getValue();
+    	model.creaDieta(condiment);
 
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	
-    	int calorie = Integer.parseInt(txtCalorie.getText());
+    	double calorie = Integer.parseInt(txtCalorie.getText());
     	model.creaGrafo(calorie);
     	
-    	txtResult.appendText("Ingredienti con meno di " + calorie + " calorie: \n\n");
     	List<Condiment> condiment = model.getCondiment();
+    	txtResult.appendText("Ingredienti con meno di " + calorie + " calorie: \n\n");
     	Collections.sort(condiment);
     	for(Condiment c : condiment) {
     		txtResult.appendText(c.getDisplay_name() +" - " + c.getCondiment_calories() + " - " + c.getNFood()+"\n");
     	}
     	
+		boxIngrediente.getItems().addAll(condiment);
 
     }
 
