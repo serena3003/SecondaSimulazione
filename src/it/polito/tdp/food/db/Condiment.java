@@ -1,11 +1,12 @@
 package it.polito.tdp.food.db;
 
-public class Condiment {
+public class Condiment implements Comparable<Condiment> {
 	private Integer condiment_id;
 	private Integer food_code;
 	private String display_name;
 	private String condiment_portion_size;
 	private Double condiment_calories;
+	private int nFood;
 	
 	public Condiment(Integer condiment_id, Integer food_code, String display_name, String condiment_portion_size,
 			Double condiment_calories) {
@@ -47,6 +48,12 @@ public class Condiment {
 	public void setCondiment_calories(Double condiment_calories) {
 		this.condiment_calories = condiment_calories;
 	}
+	public int getNFood() {
+		return nFood;
+	}
+	public void setNFood(int food) {
+		this.nFood=food;
+	}
 
 	@Override
 	public String toString() {
@@ -77,6 +84,11 @@ public class Condiment {
 		} else if (!condiment_id.equals(other.condiment_id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Condiment other) {
+		return -this.getCondiment_calories().compareTo(other.getCondiment_calories());
 	}
 	
 	

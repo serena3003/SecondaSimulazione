@@ -5,14 +5,19 @@
 package it.polito.tdp.food;
 
 import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.food.db.Condiment;
 import it.polito.tdp.food.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 
 public class FoodController {
 	
@@ -35,6 +40,9 @@ public class FoodController {
 
     @FXML // fx:id="btnDietaEquilibrata"
     private Button btnDietaEquilibrata; // Value injected by FXMLLoader
+    
+    @FXML
+    private TextArea txtResult;
 
     @FXML
     void doCalcolaDieta(ActionEvent event) {
@@ -43,6 +51,17 @@ public class FoodController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
+    	
+    	int calorie = Integer.parseInt(txtCalorie.getText());
+    	model.creaGrafo(calorie);
+    	
+    	txtResult.appendText("Ingredienti con meno di " + calorie + " calorie: \n\n");
+    	List<Condiment> condiment = model.getCondiment();
+    	Collections.sort(condiment);
+    	for(Condiment c : condiment) {
+    		txtResult.appendText(c.getDisplay_name() +" - " + c.getCondiment_calories() + " - " + c.getNFood()+"\n");
+    	}
+    	
 
     }
 
@@ -52,6 +71,8 @@ public class FoodController {
         assert btnCreaGrafo != null : "fx:id=\"btnCreaGrafo\" was not injected: check your FXML file 'Food.fxml'.";
         assert boxIngrediente != null : "fx:id=\"boxIngrediente\" was not injected: check your FXML file 'Food.fxml'.";
         assert btnDietaEquilibrata != null : "fx:id=\"btnDietaEquilibrata\" was not injected: check your FXML file 'Food.fxml'.";
+        assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Food.fxml'.";
+
     }
     
     public void setModel(Model model) {
