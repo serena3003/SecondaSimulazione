@@ -65,46 +65,26 @@ public class Model {
 	}
 
 	public List<Condiment> creaDieta(Condiment condiment) {
-
 		List<Condiment> parziale = new ArrayList<Condiment>();
 		parziale.add(condiment);
 		calorieMax = condiment.getCondiment_calories();
-		cerca( condiment, parziale, condiment); //lo devo mettere o è automatico che ci sia?
+		cerca(condiment, parziale);		
 		return soluzioneRicorsiva;
 	}
 	
-	public void cerca( Condiment cond, List<Condiment> parziale, Condiment condiment) {
-		
-		if(!parziale.contains(condiment)) {
-			return;
-		}
-		/*double calorie = contaCalorie(parziale);
-		if(calorie>calorieMax) {
+	public void cerca(Condiment cond, List<Condiment> parziale) {
+		if(contaCalorie(parziale) > calorieMax ) {
+			calorieMax = contaCalorie(parziale);
 			soluzioneRicorsiva = new ArrayList<Condiment>(parziale);
-			calorieMax = calorie;
-			return;/////////
-		}*/
-		if(parziale.size()!=1) {
-		for(Condiment c1 : parziale) {
-			for(Condiment c2 : parziale) {
-				if(grafo.containsEdge(c1, c2) || grafo.containsEdge(c2, c1)) {
-					return;
-				}
-			}
-		}
 		}
 		
-		
-		List<Condiment> vicini = Graphs.neighborListOf(this.grafo, cond);
-		for(Condiment c : vicini) {
-			//System.out.println(c.getDisplay_name());
-			if(!parziale.contains(c)) {
+		for(Condiment c : grafo.vertexSet()) {
+			if(!parziale.contains(c) && nonContieneArco(parziale, c)) {
 				parziale.add(c);
-				cerca( c, parziale, condiment);
+				cerca(c, parziale);
 				parziale.remove(c);
 			}
 		}
-		
 	}
 	
 	public double contaCalorie(List<Condiment> condiment) {
@@ -113,6 +93,16 @@ public class Model {
 			somma = somma + c.getCondiment_calories();
 		}
 		return somma;
+	}
+	
+	private boolean nonContieneArco(List<Condiment> lista, Condiment con) {
+		
+		 for(Condiment c : lista) {
+			if(grafo.containsEdge(c, con) || grafo.containsEdge(con, c)){
+					return false;
+				}
+			}
+		return true;
 	}
 
 }
